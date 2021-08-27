@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react';
-import { Container, Table } from 'react-bootstrap';
-import { get } from './api/action';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from "react";
+import { Container, Table } from "react-bootstrap";
+import { get } from "./api/action";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [patientReports, setPatientReports] = useState([]);
 
   useEffect(() => {
-    get('/report')
-      .then(response => {
+    get("/report")
+      .then((response) => {
         setPatientReports(response);
       })
-      .catch(err => { console.error(err); })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   return (
@@ -30,16 +32,18 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {
-              patientReports.map(pReport => pReport &&
-                <tr>
-                  <td>{pReport.name}</td>
-                  <td>{pReport.registered}</td>
-                  <td>{pReport.email}</td>
-                  <td>{pReport.gender}</td>
-                  <td>{pReport.reports.length}</td>
-                </tr>)
-            }
+            {patientReports.map(
+              (pReport, id) =>
+                pReport && (
+                  <tr key={id}>
+                    <td>{pReport.name}</td>
+                    <td>{pReport.registered}</td>
+                    <td>{pReport.email}</td>
+                    <td>{pReport.gender}</td>
+                    <td>{pReport.reports.length}</td>
+                  </tr>
+                )
+            )}
           </tbody>
         </Table>
       </Container>

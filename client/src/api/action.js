@@ -1,16 +1,16 @@
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const SERVER_URL = "http://localhost:5000";
 
 const get = async (endpoint) => {
-    const url = SERVER_URL + endpoint;
-    const response = await fetch(url);
-    console.log(response.status);
-    if (response.ok) {
-        return response.json();
-    }
+  const url = SERVER_URL + endpoint;
+  const response = await fetch(url);
+  console.log(response.status);
+  if (response.ok) {
+    return response.json();
+  }
 
-    return null;
-}
+  return null;
+};
 
 module.exports = {
-    get
+  get,
 };
