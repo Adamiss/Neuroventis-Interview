@@ -22,8 +22,7 @@ class PatientReport extends Component {
       reports: this.state.reports,
       show: false,
     }));
-
-    console.log("test");
+    console.log("saveReport");
   };
 
   render() {

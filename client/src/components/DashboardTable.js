@@ -16,12 +16,12 @@ class DashboardTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.patientReports.map((pReport, id) => (
-            <tr key={id}>
+          {this.props.patientReports.map((pReport) => (
+            <tr key={pReport._id}>
               <td>
                 <Link
                   to={{
-                    pathname: `/PatientReport/${id}`,
+                    pathname: `/PatientReport/${pReport._id}`,
                     state: { pReport },
                   }}
                 >
