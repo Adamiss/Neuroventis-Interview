@@ -24,8 +24,8 @@ class PatientReport extends Component {
   }
 
   sendToServer() {
-    const id = this.props.match.params.id;
-    const res = JSON.stringify(this.state.reports);
+    //const id = this.props.match.params.id;
+    //const res = JSON.stringify(this.state.reports);
   }
 
   onChange(e) {
