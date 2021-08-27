@@ -5,11 +5,6 @@ import { withRouter } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 
 class PatientReport extends Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-  }
-
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -23,6 +18,15 @@ class PatientReport extends Component {
     event: "",
     content: "",
   };
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  sendToServer() {
+    const id = this.props.match.params.id;
+    const res = JSON.stringify(this.state.reports);
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -30,8 +34,6 @@ class PatientReport extends Component {
 
   toggle = () =>
     this.setState((currentState) => ({ show: !currentState.show }));
-
-  dataValidation = () => {};
 
   saveReport = () => {
     let reportName = this.state.reportName;
@@ -43,7 +45,7 @@ class PatientReport extends Component {
     }
 
     if (errors) {
-      window.alert("Hello world!");
+      window.alert("Data Error");
     } else {
       var uuid = uuidv4();
       var created = Date().toLocaleString();
@@ -55,11 +57,11 @@ class PatientReport extends Component {
         content: this.state.content,
       };
       this.toggle();
-      console.log("saveReport");
       this.setState.reports = this.state.reports.push(newReport);
       this.setState.content = "";
       this.setState.reportName = "";
       this.setState.event = "";
+      this.sendToServer();
     }
   };
 
@@ -67,14 +69,12 @@ class PatientReport extends Component {
     const { name, email, gender, registered } =
       this.props.location.state.pReport;
 
-    const id = this.props.match.params.id;
-
     let newFormReport;
 
     if (this.state.show) {
       newFormReport = (
         <Container>
-          <div class="shadow-lg p-3 mb-5 bg-white rounded">
+          <div className="shadow-lg p-3 mb-5 bg-white rounded">
             <Form>
               <Form.Group
                 className="mb-3"
@@ -115,7 +115,6 @@ class PatientReport extends Component {
                       value={this.state.content}
                       onChange={this.onChange}
                     />
-                    {console.log(this.state.content)}
                   </Col>
                 </Row>
                 <Row>
@@ -168,7 +167,6 @@ class PatientReport extends Component {
             Add Report
           </Button>{" "}
         </Container>
-        {console.log(this.state)}
         {newFormReport}
       </div>
     );
