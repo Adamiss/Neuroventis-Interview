@@ -7,7 +7,7 @@ import Dashboard from "./components/Dashboard";
 import PatientReport from "./components/PatientReport";
 
 function App() {
-  const [patientReports, setPatientReports] = useState([]);
+  const [patientReports, setPatientReports] = useState([""]);
 
   useEffect(() => {
     get("/report")
