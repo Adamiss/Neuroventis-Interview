@@ -2,32 +2,73 @@ import React, { Component } from "react";
 import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
+import { v4 as uuidv4 } from "uuid";
 
 class PatientReport extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
   static propTypes = {
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
   };
+
   state = {
     reports: this.props.location.state.pReport.reports,
     show: false,
+    reportName: "",
+    event: "",
+    content: "",
   };
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   toggle = () =>
     this.setState((currentState) => ({ show: !currentState.show }));
 
+  dataValidation = () => {};
+
   saveReport = () => {
-    this.setState((currentState) => ({
-      reports: this.state.reports,
-      show: false,
-    }));
-    console.log("saveReport");
+    let reportName = this.state.reportName;
+    let event = this.state.event;
+    let content = this.state.content;
+    let errors = false;
+    if (reportName === "" || event === "" || content === " ") {
+      errors = true;
+    }
+
+    if (errors) {
+      window.alert("Hello world!");
+    } else {
+      var uuid = uuidv4();
+      var created = Date().toLocaleString();
+      var newReport = {
+        _id: uuid,
+        created: created,
+        reportName: this.state.reportName,
+        event: this.state.event,
+        content: this.state.content,
+      };
+      this.toggle();
+      console.log("saveReport");
+      this.setState.reports = this.state.reports.push(newReport);
+      this.setState.content = "";
+      this.setState.reportName = "";
+      this.setState.event = "";
+    }
   };
 
   render() {
     const { name, email, gender, registered } =
       this.props.location.state.pReport;
+
+    const id = this.props.match.params.id;
+
     let newFormReport;
 
     if (this.state.show) {
@@ -42,11 +83,21 @@ class PatientReport extends Component {
                 <Row>
                   <Col>
                     <Form.Label>ReportName</Form.Label>
-                    <Form.Control type="reportName" />
+                    <Form.Control
+                      type="text"
+                      name="reportName"
+                      value={this.state.reportName}
+                      onChange={this.onChange}
+                    />
                   </Col>
                   <Col>
                     <Form.Label>Event</Form.Label>
-                    <Form.Control type="event " />
+                    <Form.Control
+                      type="text "
+                      name="event"
+                      value={this.state.event}
+                      onChange={this.onChange}
+                    />
                   </Col>
                 </Row>
               </Form.Group>
@@ -57,7 +108,14 @@ class PatientReport extends Component {
                 <Row>
                   <Col>
                     <Form.Label>Content</Form.Label>
-                    <Form.Control as="textarea" rows={3} />
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      name="content"
+                      value={this.state.content}
+                      onChange={this.onChange}
+                    />
+                    {console.log(this.state.content)}
                   </Col>
                 </Row>
                 <Row>
